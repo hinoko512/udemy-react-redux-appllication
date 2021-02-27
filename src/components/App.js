@@ -1,33 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
-const App = () => {
-  return (
-    <div style={{"padding": "20px"}}>
-      <Counter></Counter>
-    </div>
-  );
-}
+import {increment, decrement } from '../actions';
 
-const Counter = (props) => {
-  const [count, setCount] = useState(0);
-
-  const handlePlusButton = () => {
-    console.log(count)
-    setCount(count+1)
-  }
-
-  const handleMinusButton = () => {
-    console.log(count)
-    setCount(count-1)
-  }
-
+const App = (props) => {
   return(
     <React.Fragment>
-      <div>count: {count}</div>
-      <button onClick={handlePlusButton}>+1</button> 
-      <button onClick={handleMinusButton}>-1</button> 
+      <div>count: {props.value}</div>
+      <button onClick={props.increment}>+1</button> 
+      <button onClick={props.decrement}>-1</button> 
     </React.Fragment>   
   )
 }
 
-export default App;
+const mapStateToProps = state => ({value: state.count.value})
+const mapDispatchToProps = dispatch => ({
+  increment: () => dispatch(increment()),
+  decrement: () => dispatch(decrement())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
+
+// export default App;
